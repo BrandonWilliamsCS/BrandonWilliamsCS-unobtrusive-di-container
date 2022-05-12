@@ -11,11 +11,11 @@ export class DependencyRegistryBuilder<T = BaseDependencyMap>
   private readonly registrationMap: RegistrationMap<T> =
     {} as RegistrationMap<T>;
 
-  registerInstance<K extends string & keyof T>(key: K, instance: T[K]): void {
+  registerInstance<K extends keyof T>(key: K, instance: T[K]): void {
     this.registrationMap[key] = { type: "instance", instance };
   }
 
-  registerFactory<K extends string & keyof T>(
+  registerFactory<K extends keyof T>(
     key: K,
     factory: DependencyFactory<T[K], T>,
     transient = false,

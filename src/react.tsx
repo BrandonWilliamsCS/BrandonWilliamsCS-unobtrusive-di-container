@@ -34,7 +34,7 @@ export function DependencyProvider<T = BaseDependencyMap>({
 
 export function useDependency<
   T = BaseDependencyMap,
-  K extends string & keyof T = string & keyof T,
+  K extends keyof T = keyof T,
 >(key: K): T[K] {
   const registry = React.useContext(InternalContext) as DependencyRegistry<T>;
   return registry.resolveDependency(key);

@@ -5,14 +5,17 @@ import { RegistrationMap } from "./RegistrationMap";
 export class DependencyRegistry<T = BaseDependencyMap> {
   public static readonly Empty = new DependencyRegistry<{}>({});
 
-  private readonly resolvedDependencies = new Map<string, unknown>();
+  private readonly resolvedDependencies = new Map<
+    string | number | symbol,
+    unknown
+  >();
 
   public constructor(
     private readonly registrations: RegistrationMap<T>,
     private readonly parentRegistry?: DependencyRegistry<T>,
   ) {}
 
-  public resolveDependency<K extends string & keyof T>(key: K): T[K] {
+  public resolveDependency<K extends keyof T>(key: K): T[K] {
     const dependency = this.resolveDependencyStatus(key);
     if (!dependency.present) {
       throw new Error(`Missing dependency with key ${key}`);
@@ -20,13 +23,13 @@ export class DependencyRegistry<T = BaseDependencyMap> {
     return dependency.value!;
   }
 
-  public resolveOptionalDependency<K extends string & keyof T>(
+  public resolveOptionalDependency<K extends keyof T>(
     key: K,
   ): T[K] | undefined {
     return this.resolveDependencyStatus(key).value;
   }
 
-  private resolveDependencyStatus<K extends string & keyof T>(
+  private resolveDependencyStatus<K extends keyof T>(
     key: K,
   ): { present: boolean; value?: T[K] } {
     // If we've cached the value, use that.
@@ -49,7 +52,7 @@ export class DependencyRegistry<T = BaseDependencyMap> {
       : { present: false };
   }
 
-  private resolveRegisteredDependencyStatus<K extends string & keyof T>(
+  private resolveRegisteredDependencyStatus<K extends keyof T>(
     key: K,
     registration: RegistrationMap<T>[K],
   ): { present: true; value: T[K] } {
