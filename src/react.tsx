@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BaseDependencyMap } from "./BaseDependencyMap";
-import { DependencyRegistar } from "./DependencyRegistrar";
+import { DependencyRegistrar } from "./DependencyRegistrar";
 import { DependencyRegistry } from "./DependencyRegistry";
 import { DependencyRegistryBuilder } from "./DependencyRegistryBuilder";
 
@@ -9,7 +9,7 @@ import { DependencyRegistryBuilder } from "./DependencyRegistryBuilder";
 const InternalContext = React.createContext(DependencyRegistry.Empty);
 
 export interface DependencyProviderProps<T> {
-  registerDependencies: (registrar: DependencyRegistar<T>) => void;
+  registerDependencies: (registrar: DependencyRegistrar<T>) => void;
 }
 
 export function DependencyProvider<T = BaseDependencyMap>({

@@ -13,7 +13,10 @@ export class DependencyRegistry<T = BaseDependencyMap> {
   public constructor(
     private readonly registrations: RegistrationMap<T>,
     private readonly parentRegistry?: DependencyRegistry<T>,
-  ) {}
+  ) {
+    this.resolveDependency = this.resolveDependency.bind(this);
+    this.resolveOptionalDependency = this.resolveOptionalDependency.bind(this);
+  }
 
   public resolveDependency<K extends keyof T>(key: K): T[K] {
     const dependency = this.resolveDependencyStatus(key);

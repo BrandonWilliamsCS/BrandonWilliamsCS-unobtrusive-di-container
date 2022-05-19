@@ -1,12 +1,12 @@
 import { BaseDependencyMap } from "./BaseDependencyMap";
 import { DependencyFactory } from "./DependencyFactory";
-import { DependencyRegistar } from "./DependencyRegistrar";
+import { DependencyRegistrar } from "./DependencyRegistrar";
 import { DependencyRegistry } from "./DependencyRegistry";
 import { RegistrationMap } from "./RegistrationMap";
 
-/** A DependencyRegistar that serves to build a Registry from its registrations */
+/** A DependencyRegistrar that serves to build a Registry from its registrations */
 export class DependencyRegistryBuilder<T = BaseDependencyMap>
-  implements DependencyRegistar<T>
+  implements DependencyRegistrar<T>
 {
   private readonly registrationMap: RegistrationMap<T> =
     {} as RegistrationMap<T>;
