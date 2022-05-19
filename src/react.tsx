@@ -68,6 +68,15 @@ export function DirectDependencyProvider<T = BaseDependencyMap>({
   );
 }
 
+export function useDependencies<T = BaseDependencyMap>(): <
+  K extends keyof T = keyof T,
+>(
+  key: K,
+) => T[K] {
+  const registry = React.useContext(InternalContext) as DependencyRegistry<T>;
+  return registry.resolveDependency;
+}
+
 export function useDependency<
   T = BaseDependencyMap,
   K extends keyof T = keyof T,
