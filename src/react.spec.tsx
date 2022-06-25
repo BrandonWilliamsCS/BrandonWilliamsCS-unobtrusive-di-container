@@ -178,4 +178,32 @@ describe("useDependency", () => {
     // Assert
     expect(parentfactory).not.toHaveBeenCalled();
   });
+  it("delegates to parent scope in factory provided by child scope", () => {
+    // Arrange
+    const dependency = "dependency";
+    const registerParentDependencies: DependencyProviderProps<CompoundDependencyMap>["registerDependencies"] =
+      (registrar) => {
+        registrar.registerInstance("key", dependency);
+      };
+    const registerDependencies: DependencyProviderProps<CompoundDependencyMap>["registerDependencies"] =
+      (registrar) => {
+        registrar.registerFactory(
+          "compoundKey",
+          (registry) => `compound-${registry.resolveDependency("key")}`,
+        );
+      };
+
+    // Act
+    const { result } = renderHook(() => useDependency("compoundKey"), {
+      wrapper: ({ children }) => (
+        <DependencyProvider registerDependencies={registerParentDependencies}>
+          <DependencyProvider registerDependencies={registerDependencies}>
+            {children}
+          </DependencyProvider>
+        </DependencyProvider>
+      ),
+    });
+    // Assert
+    expect(result.current).toBe("compound-dependency");
+  });
 });
